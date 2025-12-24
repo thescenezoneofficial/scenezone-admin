@@ -1,5 +1,5 @@
-import { Metadata } from "next"
-import data from "./users.json"
+import { Metadata } from 'next'
+import data from './users.json'
 import {
   Table,
   TableBody,
@@ -7,23 +7,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from '@/components/ui/table'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+} from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export const metadata: Metadata = {
-  title: "Users | Dashboard",
-  description: "Manage your users, hosts, and artists.",
+  title: 'Users | Dashboard',
+  description: 'Manage your users, hosts, and artists.',
 }
 
-type UserRole = "user" | "host" | "artist"
+type UserRole = 'user' | 'host' | 'artist'
 
 interface User {
   _id: string
@@ -37,14 +37,14 @@ interface User {
 // 2. Helper to get Badge colors based on role
 const getRoleBadgeColor = (role: UserRole) => {
   switch (role) {
-    case "user":
-      return "default" // Black/Primary
-    case "host":
-      return "secondary" // Gray/Secondary
-    case "artist":
-      return "outline" // White/Outline
+    case 'user':
+      return 'default' // Black/Primary
+    case 'host':
+      return 'secondary' // Gray/Secondary
+    case 'artist':
+      return 'outline' // White/Outline
     default:
-      return "default"
+      return 'default'
   }
 }
 
@@ -60,9 +60,7 @@ export default function UsersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.total}</div>
-            <p className="text-xs text-muted-foreground">
-              Across all roles
-            </p>
+            <p className="text-xs text-muted-foreground">Across all roles</p>
           </CardContent>
         </Card>
         {/* You can add more summary cards here (e.g., Active Artists) */}
@@ -97,9 +95,7 @@ export default function UsersPage() {
                       </AvatarFallback>
                     </Avatar>
                   </TableCell>
-                  <TableCell className="font-medium">
-                    {user.fullName}
-                  </TableCell>
+                  <TableCell className="font-medium">{user.fullName}</TableCell>
                   <TableCell>
                     <Badge variant={getRoleBadgeColor(user.role)}>
                       {user.role}
@@ -107,7 +103,9 @@ export default function UsersPage() {
                   </TableCell>
                   <TableCell>{user.mobileNumber}</TableCell>
                   <TableCell>
-                    {user.address || user.location || <span className="text-muted-foreground italic">N/A</span>}
+                    {user.address || user.location || (
+                      <span className="text-muted-foreground italic">N/A</span>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

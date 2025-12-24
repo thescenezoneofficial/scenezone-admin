@@ -36,11 +36,21 @@ function isTokenExpired(token: string): boolean {
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  // Check for access token cookie
+  const accessToken = req.cookies.get('accessToken')?.value
+  const hasValidSession = accessToken && !isTokenExpired(accessToken)
+
+  // Redirect authenticated users away from login page
+  if( pathname === '/login' && hasValidSession ) {
+    return NextResponse.redirect(new URL('/dashboard', req.url))
+  }
+
   // Allow any public or static request
   if (isPublicRequest(pathname)) {
     return NextResponse.next()
   }
 
+  // Redirect root to dashboard
   if (pathname === '/')
     return NextResponse.redirect(new URL('/dashboard', req.url))
 
@@ -51,11 +61,10 @@ export async function proxy(req: NextRequest) {
     return response
   }
 
-  // Check for access token cookie
-//   const accessToken = req.cookies.get('accessToken')?.value
-//   if (!accessToken || isTokenExpired(accessToken)) {
-//     return NextResponse.redirect(new URL('/login', req.url))
-//   }
+  // Protect private routes
+  if (!hasValidSession) {
+    return NextResponse.redirect(new URL('/login', req.url))
+  }
 
   // Authenticated, proceed
   return NextResponse.next()

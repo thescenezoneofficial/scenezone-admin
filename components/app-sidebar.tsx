@@ -33,7 +33,7 @@ const data = {
       url: '/dashboard',
       icon: IconDashboard,
     },
-      {
+    {
       title: 'Users',
       url: '/users',
       icon: IconUsers,
@@ -70,7 +70,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ...item,
     // Item is active if pathname matches exactly OR if pathname starts with item.url (e.g. /users/123)
     // We add a check to ensure "/" doesn't match everything if you had a root route.
-    isActive: pathname === item.url || (item.url !== '/dashboard' && pathname.startsWith(item.url)),
+    isActive:
+      pathname === item.url ||
+      (item.url !== '/dashboard' && pathname.startsWith(item.url)),
   }))
 
   return (
@@ -82,7 +84,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-            <Link href="/dashboard">
+              <Link href="/dashboard">
                 <Image
                   src="/footerlogo.png"
                   alt="SceneZone"
@@ -91,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className="h-8 w-auto"
                   priority
                 />
-            </Link>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
