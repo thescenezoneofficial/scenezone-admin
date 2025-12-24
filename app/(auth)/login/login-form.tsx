@@ -12,7 +12,7 @@ import {
   FieldError,
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { loginAction } from '@/app/(auth)/login/actions'
+import { loginAction } from './actions'
 import { useActionState } from 'react'
 import { TriangleAlert } from 'lucide-react'
 

@@ -3,6 +3,9 @@
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
 import { loginSchema, LoginFormState } from "./schema"
+import { fetchApi } from "@/lib/api"
+import { ApiError } from "@/lib/exceptions"
+import { LoginResponse } from "@/constants"
 
 export async function loginAction(
   _prevState: LoginFormState,
@@ -13,58 +16,50 @@ export async function loginAction(
     password: formData.get("password") as string,
   }
 
-  // 1. Client-side input validation
-  const validatedFields = loginSchema.safeParse(values)
-
-  if (!validatedFields.success) {
+  // 1. Validate Input
+  const validated = loginSchema.safeParse(values)
+  if (!validated.success) {
     return {
-      values, // Return values so the form doesn't wipe
-      errors: validatedFields.error.flatten().fieldErrors,
-      success: false,
+      values,
+      errors: validated.error.flatten().fieldErrors,
     }
   }
 
-  // 2. Call your backend API
   try {
-    // Replace with your actual Backend URL env variable
-    const BACKEND_URL = process.env.NEXT_BACKEND_API_URL || "http://localhost:3000/api" 
-    
-    const response = await fetch(`${BACKEND_URL}/admin/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(validatedFields.data),
+    // 2. Call API
+    // fetchApi returns the parsed JSON object directly
+    const response = await fetchApi<LoginResponse>('/admin/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(validated.data),
     })
 
-    const data = await response.json()
-
-    if (!response.ok || !data.success) {
-      return {
-        values,
-        errors: {
-          root: [data.message || "Invalid credentials"],
-        },
-        success: false,
-      }
-    }
-
-    // 3. Set Session Cookie
+    // 3. Set Cookie
     const cookieStore = await cookies()
-    cookieStore.set("accessToken", data.data.token, {
+    cookieStore.set("accessToken", response.data.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: 60 * 60 * 24 * 7, // 7 days
       path: "/",
+      sameSite: "lax",
     })
 
   } catch (error) {
-    console.error("Login error:", error)
+    console.error("Login Action Error:", error)
+    
+    // Return specific backend error message if available
+    if (error instanceof ApiError) {
+      return {
+        values,
+        errors: { root: [error.message] },
+      }
+    }
+
     return {
       values,
-      errors: { root: ["Failed to connect to the server. Please try again."] },
-      success: false,
+      errors: { root: ["Something went wrong. Please try again."] },
     }
   }
 
-  // 4. Redirect on success (must be outside try/catch)
+  // 4. Redirect (must be outside try/catch)
   redirect("/dashboard")
 }
