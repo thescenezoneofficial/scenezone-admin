@@ -44,8 +44,8 @@ const data = {
       icon: IconCash,
     },
     {
-      title: 'Analytics',
-      url: '/analytics',
+      title: 'Artists',
+      url: '/artists',
       icon: IconChartBar,
     },
   ],
