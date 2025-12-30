@@ -52,12 +52,12 @@ const data = {
   navSecondary: [
     {
       title: 'Contact Support',
-      url: 'https://www.thescenezone.com/contact',
+      url: 'https://www.scenezone.in/contact',
       icon: IconSettings,
     },
     {
       title: 'Privary Policy',
-      url: 'https://www.thescenezone.com/privacy',
+      url: 'https://www.scenezone.in/privacy',
       icon: IconHelp,
     },
   ],

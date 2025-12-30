@@ -2,7 +2,7 @@
 
 import { ApiError } from './exceptions'
 
-const BACKEND_URL = process.env.NEXT_BACKEND_API_URL
+const BACKEND_URL = "https://app.scenezone.in/api"
 
 export async function fetchApi<T>(path: string, options: RequestInit = {}): Promise<T> {
   const url = `${BACKEND_URL}${path}`

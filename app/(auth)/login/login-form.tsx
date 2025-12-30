@@ -102,8 +102,8 @@ export function LoginForm({
 
       <FieldDescription className="px-6 text-center">
         By clicking continue, you agree to our{' '}
-        <a href="https://www.thescenezone.com/privacy">Terms of Service</a> and{' '}
-        <a href="https://www.thescenezone.com/privacy">Privacy Policy</a>.
+        <a href="https://www.scenezone.in/privacy">Terms of Service</a> and{' '}
+        <a href="https://www.scenezone.in/privacy">Privacy Policy</a>.
       </FieldDescription>
     </div>
   )

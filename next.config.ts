@@ -5,15 +5,23 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'scenezone-media-uploads.s3.ap-south-1.amazonaws.com', // Added the regional URL
+      },
+      {
+        protocol: 'https',
+        hostname: 'scenezone-media-uploads.s3.amazonaws.com', // Keep the global one just in case
+      },
+      {
+        protocol: 'https',
         hostname: 'scenezone-prod-bucket.s3.amazonaws.com',
       },
       {
         protocol: 'https',
-        hostname: 'yoraaecommerce.s3.amazonaws.com', // Added this based on your API data
+        hostname: 'yoraaecommerce.s3.amazonaws.com',
       },
       {
         protocol: 'https',
-        hostname: 'placehold.co', // Useful for testing
+        hostname: 'placehold.co',
       }
     ],
   },
