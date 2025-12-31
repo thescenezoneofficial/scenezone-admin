@@ -103,12 +103,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <Link href="/logout">
+        <a href="/logout">
           <Button variant="outline" className="w-full">
             <IconLogout />
             Log out
           </Button>
-        </Link>
+        </a>
       </SidebarFooter>
     </Sidebar>
   )
