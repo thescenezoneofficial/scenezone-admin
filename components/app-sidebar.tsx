@@ -28,11 +28,11 @@ import { usePathname } from 'next/navigation'
 
 const data = {
   navMain: [
-    {
-      title: 'Dashboard',
-      url: '/dashboard',
-      icon: IconDashboard,
-    },
+    // {
+    //   title: 'Dashboard',
+    //   url: '/dashboard',
+    //   icon: IconDashboard,
+    // },
     {
       title: 'Users',
       url: '/users',
@@ -72,7 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     // We add a check to ensure "/" doesn't match everything if you had a root route.
     isActive:
       pathname === item.url ||
-      (item.url !== '/dashboard' && pathname.startsWith(item.url)),
+      (item.url !== '/users' && pathname.startsWith(item.url)),
   }))
 
   return (
@@ -84,7 +84,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link href="/dashboard">
+              <Link href="/users">
                 <Image
                   src="/footerlogo.png"
                   alt="SceneZone"

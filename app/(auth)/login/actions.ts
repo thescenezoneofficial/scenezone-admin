@@ -61,5 +61,5 @@ export async function loginAction(
   }
 
   // 4. Redirect (must be outside try/catch)
-  redirect("/dashboard")
+  redirect("/users")
 }

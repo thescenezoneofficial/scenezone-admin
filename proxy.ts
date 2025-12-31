@@ -49,7 +49,7 @@ export async function proxy(req: NextRequest) {
 
   // Redirect authenticated users away from login page
   if( pathname === '/login' && hasValidSession ) {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+    return NextResponse.redirect(new URL('/users', req.url))
   }
 
   // Allow any public or static request
@@ -59,7 +59,7 @@ export async function proxy(req: NextRequest) {
 
   // Redirect root to dashboard
   if (pathname === '/')
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+    return NextResponse.redirect(new URL('/users', req.url))
 
   // Clear cookies on logout
   if (pathname === '/logout') {
