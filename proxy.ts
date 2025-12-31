@@ -21,14 +21,21 @@ function isTokenExpired(token: string): boolean {
     const parts = token.split('.')
     if (parts.length !== 3) return true
 
-    // base64url → JSON
-    const payload = JSON.parse(
-      Buffer.from(parts[1], 'base64url').toString('utf-8'),
+    // Decode base64url using standard Web API
+    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
     )
+
+    const payload = JSON.parse(jsonPayload)
     const nowInSecs = Date.now() / 1000
 
     return typeof payload.exp !== 'number' || payload.exp < nowInSecs
-  } catch {
+  } catch (e) {
+    console.error("Token decode failed:", e) // See the actual error
     return true
   }
 }
