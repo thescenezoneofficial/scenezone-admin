@@ -21,8 +21,16 @@ function isTokenExpired(token: string): boolean {
     const parts = token.split('.')
     if (parts.length !== 3) return true
 
-    // Decode base64url using standard Web API
-    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+    // 1. Convert Base64URL to Base64
+    let base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+    
+    // 2. FIXED: Add Padding (Required for atob in Edge Runtime)
+    const padding = base64.length % 4
+    if (padding) {
+      base64 += '='.repeat(4 - padding)
+    }
+
+    // 3. Decode
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split('')
@@ -35,12 +43,12 @@ function isTokenExpired(token: string): boolean {
 
     return typeof payload.exp !== 'number' || payload.exp < nowInSecs
   } catch (e) {
-    console.error("Token decode failed:", e) // See the actual error
+    console.error("Token decode failed:", e)
     return true
   }
 }
 
-export async function proxy(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   // Check for access token cookie
