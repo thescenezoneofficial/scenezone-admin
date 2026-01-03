@@ -3,7 +3,7 @@
 import { ApiError } from './exceptions'
 import { cookies } from 'next/headers'
 
-const BACKEND_URL = 'https://api.scenezone.io'
+const BACKEND_URL = 'https://app.scenezone.in/api'
 
 export async function fetchApi<T>(
   path: string,
