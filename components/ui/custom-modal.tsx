@@ -39,36 +39,33 @@ export const CustomModal: React.FC<CustomModalProps> = ({
   }
 
   // Use React Portal to render the modal at the end of the body
-  // This helps avoid z-index and styling conflicts
   return ReactDOM.createPortal(
     <div
-      // Overlay: Covers the entire screen
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm"
-      onClick={onClose} // Close modal when clicking the overlay
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
     >
       <div
-        // Modal Content Container: Stop propagation prevents closing when clicking inside the modal content
-        className="relative z-50 w-full max-w-xl rounded-lg bg-white p-6 shadow-xl"
-        onClick={(e) => e.stopPropagation()} // Prevent clicks inside the modal from closing it
+        className="relative z-50 w-full max-w-xl rounded-lg border border-border bg-background p-6 shadow-xl text-foreground"
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header with Title and Close Button */}
-        <div className="mb-4 flex items-center justify-between border-b pb-3">
+        {/* Modal Header */}
+        <div className="mb-4 flex items-center justify-between border-b border-border pb-3">
           {title && (
-            <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
+            <h2 className="text-lg font-semibold text-foreground">{title}</h2>
           )}
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Modal Body: Render the children passed to the component */}
+        {/* Modal Body */}
         <div className="modal-body">{children}</div>
       </div>
     </div>,
-    document.body, // Target element for the portal
+    document.body
   )
 }

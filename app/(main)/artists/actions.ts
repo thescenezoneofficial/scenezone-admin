@@ -28,18 +28,19 @@ export async function verifyArtistAction(artistAuthId: string) {
 }
 
 // DELETE ARTIST (Assuming a standard delete endpoint exists)
-export async function deleteArtistAction(profileId: string) {
+export async function deleteArtistAction(artistAuthId: string) {
   const cookieStore = await cookies()
   const token = cookieStore.get("accessToken")?.value
 
   if (!token) return { error: "Unauthorized" }
 
   try {
-    await fetchApi(`/artist/delete-artist/${profileId}`, {
+    await fetchApi(`/artist/delete-profile`, {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${token}`,
       },
+      body: JSON.stringify({ artistId: artistAuthId }),
     })
 
     revalidatePath("/artists")
